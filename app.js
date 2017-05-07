@@ -91,9 +91,9 @@ function proxy(req, res) {
     };
 
     var proxyReq = http.request(options, function (proxyRes) {
-        proxyRes.pipe(res, {end: true});
+        proxyRes.pipe(res);
     });
 
-    req.pipe(proxyReq, {end: true});
+    req.pipe(proxyReq);
     return proxyReq;
 }
