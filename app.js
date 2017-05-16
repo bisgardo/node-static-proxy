@@ -41,7 +41,7 @@ http.createServer(function (req, res) {
     if (result !== null) {
         var file = result.file;
         var contents = result.contents;
-
+        
         // TODO Should probably set content type...
         console.log('Serving', file)
         return res.end(contents);
@@ -81,7 +81,7 @@ function proxy(req, res) {
     var method = req.method;
     var url = req.url
     var headers = req.headers;
-
+    
     var options = {
         hostname: config.outgoingHost,
         port: config.outgoingPort,
@@ -89,11 +89,15 @@ function proxy(req, res) {
         method: method,
         headers: headers
     };
-
+    
     var proxyReq = http.request(options, function (proxyRes) {
         proxyRes.pipe(res);
+    }).on('error', function (err) {
+        console.error('Failed proxying to', proxyReq.method, proxyReq.path);
+        res.statusCode = 502;
+        res.end();
     });
-
+    
     req.pipe(proxyReq);
     return proxyReq;
 }
