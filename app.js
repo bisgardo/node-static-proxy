@@ -91,6 +91,12 @@ function proxy(req, res) {
     };
     
     var proxyReq = http.request(options, function (proxyRes) {
+        // Pipe status code and headers.
+        var statusCode = proxyRes.statusCode;
+        var headers = proxyRes.headers;
+        res.writeHead(statusCode, headers);
+        
+        // Pipe response body.
         proxyRes.pipe(res);
     }).on('error', function (err) {
         console.error('Failed proxying to', proxyReq.method, proxyReq.path);
