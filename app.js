@@ -26,11 +26,11 @@ parseConfig(args);
 
 // Validate config parameters.
 if (!config.incomingPort) {
-    console.log('Error: missing incoming port');
+    console.error('Error: missing incoming port');
     process.exit(1);
 }
 if (!config.outgoingPort) {
-    console.log('Error: missing outgoing port');
+    console.error('Error: missing outgoing port');
     process.exit(1);
 }
 
