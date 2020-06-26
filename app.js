@@ -14,7 +14,7 @@ var config = {
 };
 
 function parseConfig(args) {
-    var keys = ['incomingPort', 'outgoingPort', 'outgoingHost', 'root']
+    var keys = ['incomingPort', 'outgoingPort', 'outgoingHost', 'root'];
     args.forEach(function (arg, index) {
         var key = keys[index];
         config[key] = arg;
@@ -43,7 +43,7 @@ http.createServer(function (req, res) {
         var contents = result.contents;
         
         // TODO Should probably set content type...
-        console.log('Serving', file)
+        console.log('Serving', file);
         return res.end(contents);
     }
     
@@ -69,7 +69,7 @@ function readFirstExisting(files) {
     for (var index in files) {
         var file = files[index];
         try {
-            var contents = fs.readFileSync(file, 'utf-8')
+            var contents = fs.readFileSync(file, 'utf-8');
             return {file: file, contents: contents};
         } catch (ignored) {
         }
@@ -79,7 +79,7 @@ function readFirstExisting(files) {
 
 function proxy(req, res) {
     var method = req.method;
-    var url = req.url
+    var url = req.url;
     var headers = req.headers;
     
     var options = {
@@ -100,6 +100,7 @@ function proxy(req, res) {
         proxyRes.pipe(res);
     }).on('error', function (err) {
         console.error('Failed proxying to', proxyReq.method, proxyReq.path);
+        //console.debug(err);
         res.statusCode = 502;
         res.end();
     });
